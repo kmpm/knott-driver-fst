@@ -114,7 +114,8 @@ mqtt.createClient(config.mqtt.port, config.mqtt.host, function(err, client){
 
     if(index.hasOwnProperty(packet.topic)){
       var address = parseInt(index[packet.topic].substring(2), 10);
-      var value = Math.round(parseFloat(packet.payload)*100);
+      //make value with 1 decimal without decimal separator. 15.2 = 152
+      var value = Math.round(parseFloat(packet.payload) * 10);
       //log.debug("setting fw", address, "to", value);
       service.storage.set(easyip.OPERANDS.FLAGWORD, address , value);
     }
