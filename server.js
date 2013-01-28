@@ -80,7 +80,7 @@ mqtt.createClient(config.mqtt.port, config.mqtt.host, function(err, client){
   client.connect({keepalive:config.mqtt.keepalive || 30000});
 
 	client.on('connack', function(packet){
-		log.debug("Connected to mqtt data", config.mqtt);
+		log.info("Connected to mqtt data", config.mqtt);
     client.publish({topic:'/config/fst/nodes/' + config.device_id +  "/hostname", payload:os.hostname(), retain:true});  
     hartbeat(client);
     setInterval(hartbeat, 30000, client);
@@ -121,7 +121,7 @@ mqtt.createClient(config.mqtt.port, config.mqtt.host, function(err, client){
     }
   });
   service.storage.on('changed', function(operand, index, prev, now){
-    log.debug("fw", index, "changed to", now);
+    log.info("fw", index, "changed to", now);
     client.publish({topic:'/raw/fst/' + config.device_id + '/fw' + index, retain:true, payload:now});
   });
 });
