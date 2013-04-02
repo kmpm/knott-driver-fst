@@ -1,14 +1,20 @@
 var mqtt = require('mqttjs'),
     easyip = require('easyip'),
     os = require('os'),
-    Log = require('./lib/log');
+    Log = require('knott-driver').Log,
+    Pid = require('knott-driver').Pid;
 
 
 //load config file
 var config = require('./config.json'),
-    log = new Log();
+    log = new Log(), 
+    pid = new Pid(config);
 
 log.level = config.loglevel || 3;
+process.title = "knott-driver-fst";
+
+
+
 
 var ctopic = "/config/fst/deviceinfo/" + config.device_id + "/";
 
@@ -17,6 +23,9 @@ var subscribe, unsubscribe;
 var service = new easyip.Service();
 service.on('listening', function(){
   log.info("easyip is online");
+  pid.downgrade(function(uid, gid){
+    log.info("running as %s:%s", uid, gid); 
+  });
   getConfig();
 });
 

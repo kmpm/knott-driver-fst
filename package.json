@@ -4,6 +4,7 @@
   "description": "Festo Easy-IP interface for knott",
   "main": "index.js",
   "dependencies": {
+    "knott-driver":"*",
     "easyip": "~2.0.8",
     "mqttjs": "~0.1.7"
   },
